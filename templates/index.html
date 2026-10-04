@@ -39,8 +39,8 @@
                     <p><strong>{{ day_number }}</strong><span> days complete</span></p>
                     <span class="progress-total">of 100</span>
                 </div>
-                <div class="progress-track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <span class="progress-fill"></span>
+                <div class="progress-track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress_percent }}">
+                    <span class="progress-fill" style="width: {{ progress_percent }}%;"></span>
                 </div>
                 <div class="milestones" aria-hidden="true">
                     <span>START</span><span>25</span><span>50</span><span>75</span><span>100 DAYS</span>

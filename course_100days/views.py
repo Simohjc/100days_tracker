@@ -13,6 +13,7 @@ def index(request):
     today = timezone.localdate()
     day_number = (today - COURSE_START).days + 1
     day_number = min(day_number, TOTAL_DAYS)
+    progress_percent = round(day_number / TOTAL_DAYS * 100)
     sessions = StudySession.objects.order_by('-clockin_time')
     total = sum((s.duration for s in sessions), timedelta())
     total_hours = round(total.total_seconds() / 3600, 1)
@@ -23,6 +24,7 @@ def index(request):
         'day_number': day_number,
         'sessions': sessions,
         'total_hours': total_hours,
+        'progress_percent': progress_percent,
     }
     return render(request, 'index.html', context)
 
