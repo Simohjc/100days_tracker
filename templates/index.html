@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f4ef">
+    <title>100 Days of Python | Course Tracker</title>
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}">
+</head>
+<body>
+    <main class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="#" aria-label="100 Days of Python home">
+                <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+                <span>DAY<strong>BYDAY</strong></span>
+            </a>
+            <span class="course-label"><span class="status-dot"></span> 100 DAYS OF PYTHON</span>
+        </header>
+
+        <section class="welcome">
+            <p class="eyebrow">A little progress, every day</p>
+            <h1>Build a habit.<br><span>Build something great.</span></h1>
+            <p class="intro">Your Python journey is 100 days long. Show up today, and let the progress add up.</p>
+        </section>
+
+        <section class="dashboard" aria-label="Course progress and daily session">
+            <article class="card progress-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">YOUR JOURNEY</p>
+                        <h2>100 days of Python</h2>
+                    </div>
+                    <span class="journey-icon" aria-hidden="true">✳</span>
+                </div>
+
+                <div class="progress-summary">
+                    <p><strong>{{ day_number }}</strong><span> days complete</span></p>
+                    <span class="progress-total">of 100</span>
+                </div>
+                <div class="progress-track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span class="progress-fill"></span>
+                </div>
+                <div class="milestones" aria-hidden="true">
+                    <span>START</span><span>25</span><span>50</span><span>75</span><span>100 DAYS</span>
+                </div>
+
+                <div class="card-divider"></div>
+                <div class="streak-row">
+                    <span class="streak-icon" aria-hidden="true">✦</span>
+                    <div>
+                        <strong>Your streak starts today</strong>
+                        <p>One focused session is all it takes.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card session-card">
+                <p class="eyebrow">TODAY'S SESSION</p>
+                <h2>Ready when you are.</h2>
+                <p class="session-copy">Start a study session when you begin, then clock out when you're done.</p>
+
+                <div class="session-actions">
+                    <form method="POST" action="{% url 'clock_in' %}">
+                        {% csrf_token %}
+                        <button class="button button-primary" type="submit" {% if is_clocked_in %}disabled{% endif %}>
+                           <span aria-hidden="true">▶</span> Clock in
+                        </button>
+                    </form>
+                    <form method="POST" action="{% url 'clock_out' %}">
+                        {% csrf_token %}
+                        <button class="button button-secondary" type="submit" {% if not is_clocked_in %}disabled{% endif %}>
+                           <span aria-hidden="true">■</span> Clock out
+                        </button>
+                    </form>
+                </div>
+
+                <div class="session-note">
+                    <span class="note-icon" aria-hidden="true">↗</span>
+                    <p>Consistency beats intensity.<br><strong>Keep going at your own pace.</strong></p>
+                </div>
+            </article>
+        </section>
+
+        <section class="study-log card" aria-labelledby="study-log-title">
+            <div class="study-log-heading">
+                <div>
+                    <p class="eyebrow">YOUR STUDY HISTORY</p>
+                    <h2 id="study-log-title">Time you put in</h2>
+                    <p class="study-log-description">Each clock-in session can be recorded here.</p>
+                </div>
+                <div class="study-total" aria-label="Total study time: zero hours">
+                    <span class="study-total-label">TOTAL STUDY TIME</span>
+                    <strong>{{ total_hours }} <span>hrs</span></strong>
+                </div>
+            </div>
+
+            <div class="study-log-table-wrap">
+                <table class="study-log-table">
+                    <caption class="visually-hidden">Study sessions with date, clock-in, clock-out, and duration</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">DATE</th>
+                            <th scope="col">CLOCK IN</th>
+                            <th scope="col">CLOCK OUT</th>
+                            <th scope="col">DURATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                              {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.clockin_time|date:"M j, Y" }}</td>
+                            <td>{{ session.clockin_time|time:"g:i A" }}</td>
+                            <td>{{ session.clockout_time|time:"g:i A" }}</td>
+                            <td>{{ session.duration_display }}</td>
+                        </tr>
+                             {% empty %}
+                        <tr>
+                            <td class="empty-log" colspan="4">Your completed study sessions will appear here.</td>
+                        </tr>
+                             {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="page-footer">
+            <span>100 days. One day at a time.</span>
+            <span>KEEP SHOWING UP <span class="footer-star" aria-hidden="true">✳</span></span>
+        </footer>
+    </main>
+</body>
+</html>
