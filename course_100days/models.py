@@ -4,6 +4,7 @@ from django.db import models
 class StudySession(models.Model):
     clockin_time = models.DateTimeField()
     clockout_time = models.DateTimeField()
+    learning = models.CharField(max_length=500, blank=True)
     
     class Meta:
         ordering = ['-clockin_time']

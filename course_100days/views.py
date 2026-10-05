@@ -45,7 +45,9 @@ def clock_out(request):
         StudySession.objects.create(
             clockin_time=start,
             clockout_time=timezone.now(),
+            learning=request.POST.get('learning', '').strip(),
         )
     return redirect('index')
+
 
 

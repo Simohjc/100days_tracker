@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f4ef">
     <title>100 Days of Python | Course Tracker</title>
-    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}">
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=2">
 </head>
 <body>
     <main class="page-shell">
@@ -60,7 +60,19 @@
                 <p class="eyebrow">TODAY'S SESSION</p>
                 <h2>Ready when you are.</h2>
                 <p class="session-copy">Start a study session when you begin, then clock out when you're done.</p>
-
+                
+                <label class="learning-label" for="learning">What did you learn?</label>
+                <textarea
+                    id="learning"
+                    name="learning"
+                    form="clock-out-form"
+                    class="learning-input"
+                    rows="3"
+                    maxlength="500"
+                    placeholder="What did you learn this session?"
+                    required
+                    {% if not is_clocked_in %}disabled{% endif %}
+                ></textarea>
                 <div class="session-actions">
                     <form method="POST" action="{% url 'clock_in' %}">
                         {% csrf_token %}
@@ -68,7 +80,7 @@
                            <span aria-hidden="true">▶</span> Clock in
                         </button>
                     </form>
-                    <form method="POST" action="{% url 'clock_out' %}">
+                    <form method="POST" action="{% url 'clock_out' %}" id="clock-out-form">
                         {% csrf_token %}
                         <button class="button button-secondary" type="submit" {% if not is_clocked_in %}disabled{% endif %}>
                            <span aria-hidden="true">■</span> Clock out
@@ -105,6 +117,7 @@
                             <th scope="col">CLOCK IN</th>
                             <th scope="col">CLOCK OUT</th>
                             <th scope="col">DURATION</th>
+                            <th scope="col">What did you learn?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,10 +127,11 @@
                             <td>{{ session.clockin_time|time:"g:i A" }}</td>
                             <td>{{ session.clockout_time|time:"g:i A" }}</td>
                             <td>{{ session.duration_display }}</td>
+                            <td>{{ session.learning }}</td>
                         </tr>
                              {% empty %}
                         <tr>
-                            <td class="empty-log" colspan="4">Your completed study sessions will appear here.</td>
+                            <td class="empty-log" colspan="5">Your completed study sessions will appear here.</td>
                         </tr>
                              {% endfor %}
                     </tbody>
