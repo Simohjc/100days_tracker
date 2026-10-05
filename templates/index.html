@@ -26,7 +26,7 @@
         </section>
 
         <section class="dashboard" aria-label="Course progress and daily session">
-            <article class="card progress-card">
+           <article class="card progress-card">
                 <div class="card-heading">
                     <div>
                         <p class="eyebrow">YOUR JOURNEY</p>
@@ -35,16 +35,26 @@
                     <span class="journey-icon" aria-hidden="true">✳</span>
                 </div>
 
-                <div class="progress-summary">
-                    <p><strong>{{ day_number }}</strong><span> days complete</span></p>
-                    <span class="progress-total">of 100</span>
-                </div>
-                <div class="progress-track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress_percent }}">
-                    <span class="progress-fill" style="width: {{ progress_percent }}%;"></span>
-                </div>
-                <div class="milestones" aria-hidden="true">
-                    <span>START</span><span>25</span><span>50</span><span>75</span><span>100 DAYS</span>
-                </div>
+                {% if challenge %}
+                    <div class="progress-summary">
+                        <p><strong>{{ day_number }}</strong><span> days complete</span></p>
+                        <span class="progress-total">of 100</span>
+                    </div>
+                    <div class="progress-track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress_percent }}">
+                        <span class="progress-fill" style="width: {{ progress_percent }}%;"></span>
+                    </div>
+                    <div class="milestones" aria-hidden="true">
+                        <span>START</span><span>25</span><span>50</span><span>75</span><span>100 DAYS</span>
+                    </div>
+                {% else %}
+                    <p>Ready to begin? Your Day 1 starts the moment you click.</p>
+                    <form method="POST" action="{% url 'start_challenge' %}">
+                        {% csrf_token %}
+                        <button class="button button-primary" type="submit">
+                            <span aria-hidden="true">▶</span> Start my 100 days
+                        </button>
+                    </form>
+                {% endif %}
 
                 <div class="card-divider"></div>
                 <div class="streak-row">

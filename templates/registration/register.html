@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | DAY BY DAY</title>
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=3">
+</head>
+<body>
+    <main class="page-shell">
+        <section class="card" style="max-width: 420px; margin: 4rem auto;">
+            <p class="eyebrow">START YOUR JOURNEY</p>
+            <h2>Create an account</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="button button-primary" type="submit">Register</button>
+            </form>
+
+            <p style="margin-top: 1.5rem;">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+        </section>
+    </main>
+</body>
+</html>
