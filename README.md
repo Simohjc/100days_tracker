@@ -4,7 +4,8 @@
 
 A personal study tracker built with Django to keep me accountable through 100 Days of Python. One click to clock in when I start studying, one click to clock out when I stop, and the app handles the rest: session history, durations, total hours, and a day counter that moves forward every day.
 
-![Dashboard screenshot](screenshots/dashboard.png)
+<img width="970" height="1025" alt="Screenshot 2026-10-05 023325" src="https://github.com/user-attachments/assets/a348b45a-5245-48f8-b552-e6d038e3a5b3" />
+
 
 ---
 
