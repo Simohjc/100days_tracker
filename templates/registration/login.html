@@ -5,26 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in | DAY BY DAY</title>
-    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=6">
 </head>
 <body>
-    <main class="page-shell">
-        <section class="card" style="max-width: 420px; margin: 4rem auto;">
-            <p class="eyebrow">WELCOME BACK</p>
-            <h2>Log in</h2>
+    <main class="auth-page auth-split">
+        <aside class="auth-visual" aria-hidden="true">
+            <img src="{% static 'course_100days/images/auth-study.svg' %}" alt="">
+            <div class="auth-visual-overlay">
+                <p class="eyebrow">100 DAYS OF PYTHON</p>
+                <h2>Show up today.<br>Let the progress add up.</h2>
+            </div>
+        </aside>
+        <section class="auth-card">
+            <a class="brand" href="{% url 'index' %}">
+                <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+                <span>STUDY<strong>CLOCK</strong></span>
+            </a>
 
-            {% if form.errors %}
-                <p style="color: #b42318;">Wrong username or password. Try again.</p>
+            <p class="eyebrow">WELCOME BACK</p>
+            <h1>Log in</h1>
+            <p class="auth-subtitle">Pick up where you left off.</p>
+
+            {% if form.non_field_errors %}
+                <div class="auth-alert">Wrong username or password. Please try again.</div>
             {% endif %}
 
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {% for field in form %}
+                    <div class="auth-field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <p class="auth-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
                 <input type="hidden" name="next" value="{{ next }}">
-                <button class="button button-primary" type="submit">Log in</button>
+                <button class="button auth-submit" type="submit">Log in</button>
             </form>
 
-            <p style="margin-top: 1.5rem;">No account yet? <a href="{% url 'register' %}">Register</a></p>
+            <p class="auth-switch">New here? <a href="{% url 'register' %}">Create an account</a></p>
         </section>
     </main>
 </body>

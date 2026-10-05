@@ -4,22 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | DAY BY DAY</title>
-    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=3">
+    <title>Create account | DAY BY DAY</title>
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=7">
 </head>
 <body>
-    <main class="page-shell">
-        <section class="card" style="max-width: 420px; margin: 4rem auto;">
+    <main class="auth-page auth-split">
+        <aside class="auth-visual" aria-hidden="true">
+            <img src="{% static 'course_100days/images/auth-study.svg' %}" alt="">
+            <div class="auth-visual-overlay">
+                <p class="eyebrow">100 DAYS OF PYTHON</p>
+                <h2>Day 1 starts now.<br>Make it count.</h2>
+            </div>
+        </aside>
+        <section class="auth-card">
+            <a class="brand" href="{% url 'index' %}">
+                <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+                <span>STUDY<strong>CLOCK</strong></span>
+            </a>
+
             <p class="eyebrow">START YOUR JOURNEY</p>
-            <h2>Create an account</h2>
+            <h1>Create an account</h1>
+            <p class="auth-subtitle">100 days. One day at a time.</p>
+
+            {% if form.non_field_errors %}
+                <div class="auth-alert">{{ form.non_field_errors|join:" " }}</div>
+            {% endif %}
 
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button class="button button-primary" type="submit">Register</button>
+                {% for field in form %}
+                    <div class="auth-field">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <div class="auth-help">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="auth-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <button class="button auth-submit" type="submit">Create account</button>
             </form>
 
-            <p style="margin-top: 1.5rem;">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+            <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
         </section>
     </main>
 </body>

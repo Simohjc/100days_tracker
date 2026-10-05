@@ -7,16 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f5f4ef">
     <title>100 Days of Python | Course Tracker</title>
-    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'course_100days/style.css' %}?v=4">
 </head>
 <body>
     <main class="page-shell">
         <header class="topbar">
             <a class="brand" href="#" aria-label="100 Days of Python home">
                 <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
-                <span>DAY<strong>BYDAY</strong></span>
+                <span>STUDY<strong>CLOCK</strong></span>
             </a>
-            <span class="course-label"><span class="status-dot"></span> 100 DAYS OF PYTHON</span>
+            <div class="topbar-user">
+                <span class="course-label"><span class="status-dot"></span> {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">Log out</button>
+                </form>
+            </div>
         </header>
 
         <section class="welcome">
@@ -47,7 +53,7 @@
                         <span>START</span><span>25</span><span>50</span><span>75</span><span>100 DAYS</span>
                     </div>
                 {% else %}
-                    <p>Ready to begin? Your Day 1 starts the moment you click.</p>
+                    <p style="margin-top: 1rem;">Ready to begin? Your Day 1 starts the moment you click.</p>
                     <form method="POST" action="{% url 'start_challenge' %}">
                         {% csrf_token %}
                         <button class="button button-primary" type="submit">
